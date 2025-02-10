@@ -11,9 +11,11 @@
 
 ### Prérequis
 
-- **Node.js** (v16 ou supérieur recommandé)
-- **MongoDB** (local ou hébergé)
-- **Git** (optionnel)
+- **Node.js** (environnement d'exécution JavaScript)
+- **Express** (infrastructure d'application Web)
+- **Moche** (infrastructure de test)
+- **MongoDB** ( base de données pour le stockage des catway et des réservations)
+- **JSDoc** (Pour la documentation de l'API)
 
 ### Cloner le projet
 
