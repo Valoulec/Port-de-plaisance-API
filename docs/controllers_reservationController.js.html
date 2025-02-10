@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/reservationController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/reservationController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file Contrôleur pour la gestion des réservations
+ * @module controllers/Reservation
+ */
+
+const Reservation = require('../models/Reservation');
+const mongoose = require('mongoose');
+
+/**
+ * Récupère toutes les réservations et les affiche sur la page des réservations
+ * @async
+ * @function getAllReservations
+ * @param {Object} req - Objet de requête Express
+ * @param {Object} res - Objet de réponse Express
+ */
+exports.getAllReservations = async (req, res) => {
+    try {
+        const reservations = await Reservation.find();
+        res.render('reservations', { reservations });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+/**
+ * Récupère une réservation par son ID et l'affiche sur la page correspondante
+ * @async
+ * @function getReservationById
+ * @param {Object} req - Objet de requête Express
+ * @param {Object} res - Objet de réponse Express
+ */
+exports.getReservationById = async (req, res) => {
+    try {
+        const reservation = await Reservation.findById(req.params.id);
+        if (!reservation) {
+            return res.status(404).json({ message: 'Reservation not found' });
+        }
+        res.render('reservation', { reservation });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+/**
+ * Crée une nouvelle réservation et redirige vers la liste des réservations
+ * @async
+ * @function createReservation
+ * @param {Object} req - Objet de requête Express
+ * @param {Object} res - Objet de réponse Express
+ */
+exports.createReservation = async (req, res) => {
+    try {
+        const newReservation = new Reservation(req.body);
+        await newReservation.save();
+        res.redirect('/reservations');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+/**
+ * Met à jour une réservation existante et redirige vers la liste des réservations
+ * @async
+ * @function updateReservation
+ * @param {Object} req - Objet de requête Express
+ * @param {Object} res - Objet de réponse Express
+ */
+exports.updateReservation = async (req, res) => {
+    try {
+        const updatedReservation = await Reservation.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedReservation) {
+            return res.status(404).json({ message: 'Reservation not found' });
+        }
+        res.redirect('/reservations');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+/**
+ * Supprime une réservation en fonction de son ID et redirige vers la liste des réservations
+ * @async
+ * @function deleteReservation
+ * @param {Object} req - Objet de requête Express
+ * @param {Object} res - Objet de réponse Express
+ */
+exports.deleteReservation = async (req, res) => {
+    try {
+        const { reservationId } = req.body;
+
+        // Convertir reservationId en ObjectId
+        if (!mongoose.Types.ObjectId.isValid(reservationId)) {
+            return res.status(400).json({ message: 'ID de réservation invalide' });
+        }
+
+        const deletedReservation = await Reservation.findByIdAndDelete(reservationId);
+        if (!deletedReservation) {
+            return res.status(404).json({ message: 'Réservation non trouvée' });
+        }
+
+        res.redirect('/reservations');
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-app.html">app</a></li><li><a href="module-controllers_Catway.html">controllers/Catway</a></li><li><a href="module-controllers_Reservation.html">controllers/Reservation</a></li><li><a href="module-controllers_userController.html">controllers/userController</a></li><li><a href="module-middlewares_auth.html">middlewares/auth</a></li><li><a href="module-models.html">models</a></li><li><a href="module-models_Catway.html">models/Catway</a></li><li><a href="module-routes_authRoutes.html">routes/authRoutes</a></li><li><a href="module-routes_catwayRoutes.html">routes/catwayRoutes</a></li><li><a href="module-routes_dashboardRoutes.html">routes/dashboardRoutes</a></li><li><a href="module-routes_reservationRoutes.html">routes/reservationRoutes</a></li><li><a href="module-routes_userRoutes.html">routes/userRoutes</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

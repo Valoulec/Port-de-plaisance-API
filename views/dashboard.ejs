@@ -1,0 +1,156 @@
+<%- include('head') %>
+<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="bg-gray-100 body">
+  <%- include('header') %>
+  <main>
+  <div class="container mx-auto px-4 py-8">
+    <nav class="bg-white shadow-lg rounded-lg p-4 mb-8">
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="text-2xl font-bold">Tableau de bord</h1>
+        <div class="d-flex gap-3">
+          <a href="/catways" class="text-blue-500 hover:text-blue-600">Liste des catways</a>
+          <a href="/reservations" class="text-blue-500 hover:text-blue-600">Liste des réservations</a>
+          <a href="/users/liste" class="text-blue-500 hover:text-blue-600">Liste des utilisateurs</a>
+          <form action="/auth/logout" method="POST" class="d-inline">
+            <button type="submit" class="text-red-500 hover:text-red-600">Déconnexion</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <% if (message && message.length > 0) { %>
+      <div class="<%= messageType === 'success' ? 'bg-green-500' : 'bg-red-500' %> text-white p-2 rounded mb-4">
+        <%= message %>
+      </div>
+    <% } %>
+
+    <div class="row g-4">
+      <!-- Gestion des utilisateurs -->
+      <div class="col-md-4">
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4">Gestion des utilisateurs</h2>
+          <form action="/users" method="POST" class="mb-6">
+            <h3 class="font-medium mb-2">Créer un utilisateur</h3>
+            <div class="space-y-2">
+              <input type="text" name="name" placeholder="Nom" required class="form-control">
+              <input type="email" name="email" placeholder="Email" required class="form-control">
+              <input type="password" name="password" placeholder="Mot de passe" required class="form-control">
+              <button type="submit" class="btn btn-success mt-2">Créer</button>
+            </div>
+          </form>
+          <form action="/users/update" method="POST">
+            <h3 class="font-medium mb-2">Modifier un utilisateur</h3>
+            <div class="space-y-2">
+              <select name="userId" required class="form-select">
+                <% users.forEach(user => { %>
+                  <option value="<%= user._id %>"><%= user.email %></option>
+                <% }) %>
+              </select>
+              <input type="text" name="name" placeholder="Nouveau nom" class="form-control">
+              <input type="email" name="email" placeholder="Nouvel email" class="form-control">
+              <button type="submit" class="btn btn-warning mt-2">Modifier</button>
+            </div>
+          </form>
+          <form action="/users/delete" method="POST">
+            <h3 class="font-medium mb-2">Supprimer un utilisateur</h3>
+            <div class="space-y-2">
+              <select name="userId" required class="form-select">
+                <% users.forEach(user => { %>
+                  <option value="<%= user._id %>"><%= user.email %></option>
+                <% }) %>
+              </select>
+              <button type="submit" class="btn btn-danger mt-2">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4">Gestion des catways</h2>
+          <form action="/catways" method="POST" class="mb-6">
+            <h3 class="font-medium mb-2">Créer un catway</h3>
+            <div class="space-y-2">
+              <input type="number" name="catwayNumber" placeholder="Numéro" required class="form-control">
+              <select name="type" required class="form-select">
+                <option value="long">Long</option>
+                <option value="short">Court</option>
+              </select>
+              <input type="text" name="catwayState" placeholder="État" required class="form-control">
+              <button type="submit" class="btn btn-success mt-2">Créer</button>
+            </div>
+          </form>
+          <form action="/catways/update" method="POST">
+            <h3 class="font-medium mb-2">Modifier l'état d'un catway</h3>
+            <div class="space-y-2">
+              <select name="catwayId" required class="form-select">
+                <% catways.forEach(catway => { %>
+                  <option value="<%= catway._id %>">Catway <%= catway.catwayNumber %></option>
+                <% }) %>
+              </select>
+              <input type="text" name="catwayState" placeholder="Nouvel état" required class="form-control">
+              <button type="submit" class="btn btn-warning mt-2">Modifier</button>
+            </div>
+          </form>
+          <form action="/catways/delete" method="POST">
+            <h3 class="font-medium mb-2">Supprimer un catway</h3>
+            <div class="space-y-2">
+              <select name="catwayId" required class="form-select">
+                <% catways.forEach(catway => { %>
+                  <option value="<%= catway._id %>">Catway <%= catway.catwayNumber %></option>
+                <% }) %>
+              </select>
+              <button type="submit" class="btn btn-danger mt-2">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Gestion des réservations -->
+      <div class="col-md-4">
+        <div class="bg-white rounded-lg shadow p-6">
+          <h2 class="text-xl font-semibold mb-4">Gestion des réservations</h2>
+          <form action="/reservations" method="POST" class="mb-6">
+            <h3 class="font-medium mb-2">Créer une réservation</h3>
+            <div class="space-y-2">
+              <input type="number" name="catwayNumber" placeholder="Numéro de catway" required class="form-control">
+              <input type="text" name="clientName" placeholder="Nom du client" required class="form-control">
+              <input type="text" name="boatName" placeholder="Nom du bateau" required class="form-control">
+              <input type="date" name="checkIn" required class="form-control">
+              <input type="date" name="checkOut" required class="form-control">
+              <button type="submit" class="btn btn-success mt-2">Créer</button>
+            </div>
+          </form>
+          <form action="/reservations/update" method="POST">
+            <h3 class="font-medium mb-2">Modifier une réservation</h3>
+            <div class="space-y-2">
+              <select name="reservationId" required class="form-select">
+                <% reservations.forEach(reservation => { %>
+                  <option value="<%= reservation._id %>"><%= reservation.clientName %> - <%= reservation.boatName %></option>
+                <% }) %>
+              </select>
+              <input type="date" name="checkIn" class="form-control" required>
+              <input type="date" name="checkOut" class="form-control" required>
+              <button type="submit" class="btn btn-warning mt-2">Modifier</button>
+            </div>
+          </form>          
+          <form action="/reservations/delete" method="POST">
+            <h3 class="font-medium mb-2">Supprimer une réservation</h3>
+            <div class="space-y-2">
+              <select name="reservationId" required class="form-select">
+                <% reservations.forEach(reservation => { %>
+                  <option value="<%= reservation._id %>"><%= reservation.clientName %> - <%= reservation.boatName %></option>
+                <% }) %>
+              </select>
+              <button type="submit" class="btn btn-danger mt-2">Supprimer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+  <%- include('footer') %>
+</body>
+</html>

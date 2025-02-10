@@ -1,0 +1,50 @@
+.body{
+    background-image: url('../image/white-sailboat-body-water-daytime.jpg');
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* En-tête, contenu, pied de page */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    margin: 0;
+    background-size: cover; /* Ajuste l'image pour couvrir toute la zone */
+    background-repeat: no-repeat;
+}
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+  }
+
+.container { 
+    text-align: center;
+    width: 3000px;
+    background-color: rgba(206, 206, 206, 0.5); /* Couleur de fond de votre bulle */
+    padding: 20px;
+    border-radius: 8px; /* Arrondir les coins */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.login{
+    background-color: rgba(255, 255, 255, 0.75); 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.bienvenue{
+    font-size: 30px;
+}
+.Connexion {
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+  
+.description {
+    font-size: 20px;
+    padding: 10px;
+    text-align: left;
+    padding-top: 20px;
+}
+
+
+.mb-3 {
+    width: 1000px;
+}

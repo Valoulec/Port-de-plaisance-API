@@ -1,0 +1,9 @@
+.body{
+    background-image: url('../image/white-sailboat-body-water-daytime.jpg');
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* En-tête, contenu, pied de page */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    margin: 0;
+    background-size: cover; /* Ajuste l'image pour couvrir toute la zone */
+    background-repeat: no-repeat;
+}

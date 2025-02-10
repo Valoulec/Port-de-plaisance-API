@@ -1,0 +1,51 @@
+<%- include('head') %>
+<link rel="stylesheet" href="/css/reservations.css">
+</head>
+<body class="bg-gray-100 body">
+    <%- include('header') %>
+    <div class="container mx-auto px-4 py-8">
+        <nav class="bg-white shadow-lg rounded-lg p-4 mb-8">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="text-2xl font-bold">Liste des réservations</h1>
+                <a href="/dashboard" class="text-blue-500 hover:text-blue-600">← Retour au tableau de bord</a>
+            </div>
+        </nav>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Numéro de catway</th>
+                        <th scope="col">Client</th>
+                        <th scope="col">Bateau</th>
+                        <th scope="col">Check-in</th>
+                        <th scope="col">Check-out</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% reservations.forEach(reservation => { %>
+                        <tr>
+                            <td><%= reservation.catwayNumber %></td>
+                            <td><%= reservation.clientName %></td>
+                            <td><%= reservation.boatName %></td>
+                            <td><%= new Date(reservation.checkIn).toLocaleDateString() %></td>
+                            <td><%= new Date(reservation.checkOut).toLocaleDateString() %></td>
+                            <td>
+                                <a href="/reservations/<%= reservation._id %>" class="btn btn-info btn-sm">Détails</a>
+                                <form action="/reservations/delete" method="POST" class="d-inline">
+                                    <input type="hidden" name="reservationId" value="<%= reservation._id %>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                </form>
+                            </td>
+                            
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <%- include('footer') %>
+</body>
+</html>
+
