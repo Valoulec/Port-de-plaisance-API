@@ -11,17 +11,19 @@ const Catway = require('../models/Catway');
 
 /**
  * Route pour afficher le tableau de bord
- * @name GET /
+ * @name GET /dashboard
  * @function
  * @param {Object} req - Objet de requête Express
  * @param {Object} res - Objet de réponse Express
- * @returns {void} Redirige vers la page de connexion si non authentifié, sinon affiche le tableau de bord
+ * @returns {void} Redirige vers la page d'accueil si non authentifié, sinon affiche le tableau de bord
  */
 router.get('/', async (req, res) => {
+    // Si l'utilisateur n'est pas connecté, redirige vers la page d'accueil (index.ejs)
     if (!req.session.userId) {
         return res.redirect('/');
     }
 
+    // Si l'utilisateur est connecté, récupère les informations nécessaires
     const user = await User.findById(req.session.userId);
     const reservations = await Reservation.find();
     const catways = await Catway.find();

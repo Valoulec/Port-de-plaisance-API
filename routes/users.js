@@ -6,13 +6,13 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-
+const auth = require('../middleware/auth');
 /**
  * Route pour créer un utilisateur
  * @name POST /
  * @function
  */
-router.post('/', userController.createUser);
+router.post('/', auth, userController.createUser);
 
 /**
  * Route pour récupérer la liste des utilisateurs
@@ -33,7 +33,7 @@ router.post('/update', userController.updateUser);
  * @name POST /:id
  * @function
  */
-router.post('/:id', userController.deleteUser);
+router.post('/:id', auth, userController.deleteUser);
 
 /**
  * Route pour récupérer un utilisateur par son ID

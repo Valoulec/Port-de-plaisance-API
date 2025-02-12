@@ -6,7 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const reservationController = require('../controllers/reservationController');
-
+const auth = require('../middleware/auth');
 /**
  * Route pour récupérer toutes les réservations
  * @name GET /
@@ -26,7 +26,7 @@ router.get('/:id', reservationController.getReservationById);
  * @name POST /
  * @function
  */
-router.post('/', reservationController.createReservation);
+router.post('/', auth, reservationController.createReservation);
 
 /**
  * Route pour mettre à jour une réservation
@@ -40,6 +40,6 @@ router.post('/update', reservationController.updateReservation);
  * @name POST /delete
  * @function
  */
-router.post('/delete', reservationController.deleteReservation);
+router.post('/delete', auth, reservationController.deleteReservation);
 
 module.exports = router;

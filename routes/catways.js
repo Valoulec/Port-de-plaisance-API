@@ -6,7 +6,7 @@
 const express = require('express');
 const router = express.Router();
 const catwayController = require('../controllers/catwayController');
-
+const auth = require('../middleware/auth');
 /**
  * Route pour récupérer tous les catways
  * @name GET /
@@ -26,7 +26,7 @@ router.get('/get-add', catwayController.getAddCatway);
  * @name POST /
  * @function
  */
-router.post('/', catwayController.createCatway);
+router.post('/', auth, catwayController.createCatway);
 
 /**
  * Route pour récupérer un catway par son ID
@@ -61,7 +61,7 @@ router.post('/update', catwayController.updateCatway);
  * @name POST /delete
  * @function
  */
-router.post('/delete', catwayController.deleteCatway);
+router.post('/delete', auth, catwayController.deleteCatway);
 
 module.exports = router;
 

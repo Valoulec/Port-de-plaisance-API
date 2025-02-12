@@ -6,28 +6,6 @@
 const User = require('../models/User');
 
 /**
- * Connexion d'un utilisateur
- * @async
- * @function login
- * @param {Object} req - Objet de requête Express
- * @param {Object} res - Objet de réponse Express
- * @returns {Object} Réponse JSON indiquant le succès ou l'échec de la connexion
- */
-exports.login = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await User.findOne({ email });
-        if (!user || user.password !== password) {
-            return res.status(401).json({ message: "Invalid credentials" });
-        }
-        req.session.userId = user._id;
-        res.status(200).json({ message: "Login successful" });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-/**
  * Création d'un utilisateur
  * @async
  * @function createUser
